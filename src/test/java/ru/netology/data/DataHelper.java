@@ -3,40 +3,42 @@ package ru.netology.data;
 import com.github.javafaker.Faker;
 import lombok.Value;
 
+import java.util.Locale;
+
 public class DataHelper {
-    private static Faker faker = new Faker();
+    private static Faker faker = new Faker(new Locale("en"));
 
     private DataHelper() {
     }
 
-    @Value
-    public static class UserData {
-        private final String login;
-        private final String password;
+    public static AuthInfo getAuthInfoWithTestData() {
+        return new AuthInfo("vasya", "qwerty123");
     }
 
-    public static UserData getUser() {
-        return new UserData("vasya", "qwerty123");
-    }
-
-    public static String getRandomLogin() {
+    public static String generateRandomLogin() {
         return faker.name().username();
     }
 
-    public static String getRandomPassword() {
+    public static String generateRandomPassword() {
         return faker.internet().password();
     }
 
+    public static AuthInfo generateRandomUser() {
+        return new AuthInfo(generateRandomLogin(), generateRandomPassword());
+    }
+
+    public static VerificationCode generateRandomVerificationCode() {
+        return new VerificationCode(faker.numerify("######"));
+    }
+
     @Value
-    public static class VerifyCode {
-        private final String verifyCode;
+    public static class AuthInfo {
+        String login;
+        String password;
     }
 
-    public static VerifyCode getValidCode(String login) {
-        return new VerifyCode(SQLHelper.getVerifyCodeByLogin(login, "1"));
-    }
-
-    public static VerifyCode getRandomCode() {
-        return new VerifyCode(String.valueOf(faker.number().numberBetween(100_000, 999_999)));
+    @Value
+    public static class VerificationCode {
+        String code;
     }
 }
