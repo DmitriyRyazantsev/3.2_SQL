@@ -26,6 +26,10 @@ public class DataHelper {
     public static AuthInfo generateRandomUser() {
         return new AuthInfo(generateRandomLogin(), generateRandomPassword());
     }
+    public static AuthInfo generateUserRandomPassword() {
+        return new AuthInfo("vasya",generateRandomPassword());
+
+    }
 
     public static VerificationCode generateRandomVerificationCode() {
         return new VerificationCode(faker.numerify("######"));
